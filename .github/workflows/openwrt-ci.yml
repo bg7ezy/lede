@@ -51,7 +51,14 @@ jobs:
           ./scripts/feeds install -a
 
       - name: Generate configuration file
-        run: make defconfig
+        run: |
+          cat >> .config <<EOF
+          CONFIG_TARGET_ramips=y
+          CONFIG_TARGET_ramips_mt7621_DEVICE_ubnt-erx=y
+          CONFIG_TARGET_BOARD="ramips"
+          CONFIG_PACKAGE_luci-app-v2ray-server=y
+          EOF
+          make defconfig
 
       - name: Make download
         run: |
